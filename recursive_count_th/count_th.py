@@ -15,3 +15,7 @@ print(count_th("abcthxyz")) #1
 print(count_th("abcthefthghith")) #3
 print(count_th("thhtthht")) #2
 print(count_th("THtHThth")) #1
+
+#Here I am using the index method to find substring of "th" occurring in the word I pass into the function count_th.
+
+#Recursively, I call the function itself each time, which will pass through the word and find how many times "th" occurs, and then will cut off the first 2 indexes and move through the word again, until it finds 0. 

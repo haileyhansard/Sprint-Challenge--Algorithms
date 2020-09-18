@@ -1,3 +1,43 @@
+#NOTES: 
+# Robot can:
+#  move left
+#  move right 
+#  pick up item
+#  compare item its holding to the item in front of it
+#  swap item if it tries to pick up item & is already holding item
+#  switch light on or off
+
+#RULES:
+# Can use loops, for, while
+# Cannot make up new variables
+# Cannot store any variables
+# Cannot use python libraries or class methods.
+# Can define robot helper methods, as long as they follow rules.
+
+# SORT LIST using ONLY these abilites.
+
+# The robot can compare 2 items and swap them, so I could use Selection Sort or Bubble Sort.
+
+# Robot is initialized at position 0, holding NO item, with her light OFF.
+
+# Bubble Sort:
+# Starting with current_position which is 0, pick up that value, which is None.
+# Move right.
+# Compare value of None to the value at position 1.
+# If next's value is larger, swap. (because we want largest values at end)
+
+# def bubble_sort(arr):
+# keep a flag that tracks whether any swaps occurred 
+#   swaps_occurred = True 
+#   while swaps_occurred:
+#       swaps_occurred = False 
+#       for i in range(len(arr)-1):
+#           if arr[i] > arr[i+1]:
+#               arr[i], arr[i+1] = arr[i+1], arr[i]
+#               swaps_occurred = True
+# ​
+#   return arr
+
 class SortingRobot:
     def __init__(self, l):
         """
@@ -97,7 +137,36 @@ class SortingRobot:
         Sort the robot's list.
         """
         # Fill this out
-        pass
+
+        #Turn on Robot's light to get this process going.
+        self.set_light_on() #this is like a flag that swaps are occurring
+
+        while self.light_is_on(): #while swaps are occurring:
+            # Robot is holding NONE. We need her to hold a value, so that she can compare and move through list.
+            self.compare_item() #to check the first value, which will be None as initialized
+            self.swap_item() #to pick up first item (which is the value at the first position)
+            self.move_right() #to make her first move    
+            self.set_light_off() #turn light off when swaps have been completed, will end this loop, no more swapping will need to occur, and list will be sorted.
+
+            # While Robot can move right (while position < len(list - 1), move robot right.
+            # Need to compare values as robot moves through each position. 
+            while self.can_move_right():
+                if self.compare_item() <= 0: #will return 0, -1 or none if item robot is holding is smaller than the value in position, so we need to swap and move right with the larger-value item
+                    self.swap_item()
+                else:
+                    self.set_light_on() #need to keep looping and swapping, so light back on
+                self.move_right() #move right again, will compare values in the while loop until...
+            self.swap_item() #set larger item in the last position, cannot move right any father, swaps were performed so we need to start the while loop over to keep comparing
+
+            while self.can_move_left(): #position decrements until it is no longer greater than 0.
+                if self.compare_item() >= 0: #if item is larger than value in position, swape and move left with the smaller-value item
+                    self.swap_item()
+                else:
+                    self.set_light_on() #need to keep looping and swapping, so light back on
+                self.move_left() #move left, compare values, until...
+            self.swap_item() #set smaller item in the first position, cannot move left any farther
+
+
 
 
 if __name__ == "__main__":
